@@ -11,11 +11,11 @@ const validateInput = ({ target }) => {
 };
 
 const handleSubmit = (event) => {
-    event.preventDefault();
+  event.preventDefault();
 
-    localStorage.setItem("username", input.value);
-    window.location = "pages/game.html";
-}
+  localStorage.setItem("username", input.value);
+  window.location = "pages/game.html";
+};
 
 input.addEventListener("input", validateInput);
-form.addEventListener("submit", handleSubmit)
+form.addEventListener("submit", handleSubmit);

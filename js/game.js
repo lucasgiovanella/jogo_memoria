@@ -26,10 +26,58 @@ const checkEndGame = () => {
 
   if (disabledCards.length === 12) {
     clearInterval(this.loop);
-    alert(
-      `Parabéns, ${spanPlayer.innerHTML}! Seu tempo foi de: ${timer.innerHTML}`
-    );
+    showEndGameOptions();
   }
+};
+
+const showEndGameOptions = () => {
+  const modal = document.getElementById("endGameModal");
+  const modalMessage = document.getElementById("modalMessage");
+
+  const result = {
+    player: spanPlayer.innerHTML,
+    time: timer.innerHTML,
+  };
+
+  // Salva o resultado no armazenamento local
+  saveResult(result);
+
+  modalMessage.textContent = `Parabéns, ${result.player}! Seu tempo foi de: ${result.time}`;
+  modal.style.display = "flex";
+};
+
+const saveResult = (result) => {
+  // Recupera os resultados já salvos no armazenamento local
+  const savedResults = JSON.parse(localStorage.getItem("results")) || [];
+
+  // Adiciona o novo resultado
+  savedResults.push(result);
+
+  // Salva os resultados atualizados no armazenamento local
+  localStorage.setItem("results", JSON.stringify(savedResults));
+};
+
+const closeModal = () => {
+  const modal = document.getElementById("endGameModal");
+  modal.style.display = "none";
+};
+
+const playAgain = () => {
+  grid.innerHTML = "";
+  timer.innerHTML = 0;
+  loadGame();
+  startTimer();
+  closeModal();
+};
+
+const changeUser = () => {
+  location.href = "../index.html";
+};
+
+const viewRanking = () => {
+  // Implemente a lógica para exibir o ranking
+  closeModal();
+  window.location = "ranking.html";
 };
 
 const checkCards = () => {
@@ -47,7 +95,7 @@ const checkCards = () => {
     firstCard = "";
     secondCard = "";
 
-    checkEndGame();
+    setTimeout(checkEndGame, 500);
   } else {
     setTimeout(() => {
       firstCard.classList.remove("reveal-card");
